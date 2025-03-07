@@ -8,6 +8,7 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    `maven-publish`
 }
 
 repositories {
@@ -32,6 +33,24 @@ dependencies {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ewa-kucharek/custom-annotations-library")
+            credentials {
+                username = (project.findProperty("gpr.user") as String?) ?: System.getenv("USERNAME")
+                password = (project.findProperty("gpr.token") as String?) ?: System.getenv("DEPLOYER")
+            }
+        }
     }
 }
 
