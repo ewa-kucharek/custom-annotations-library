@@ -39,6 +39,9 @@ java {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
+            groupId = "com.github.ewakucharek"
+            artifactId = "custom-annotations-library"
+            version = "1.0.0"
             from(components["java"])
         }
     }
@@ -48,7 +51,7 @@ publishing {
             url = uri("https://maven.pkg.github.com/ewa-kucharek/custom-annotations-library")
             credentials {
                 username = (project.findProperty("gpr.user") as String?) ?: System.getenv("USERNAME")
-                password = (project.findProperty("gpr.token") as String?) ?: System.getenv("DEPLOYER")
+                password = (project.findProperty("gpr.token") as String?) ?: System.getenv("TOKEN")
             }
         }
     }
